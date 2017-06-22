@@ -221,21 +221,38 @@ abstract class BaseProvider implements Countable
      */
     protected function countModificationTime()
     {
-        $time = 0;
+      return $this->_countModifierHash();
+    }
 
-        foreach ($this->files as $file)
-        {
-            if ($this->checkExternalFile($file))
-            {
-                $userAgent = isset($this->headers['User-Agent']) ? $this->headers['User-Agent'] : '';
-                $time += hexdec(substr(md5($file . $userAgent), 0, 8));
-            }
-            else {
-                $time += filemtime($file);
-            }
-        }
+    protected function _countModifierHash()
+    {
+      $allFilesHash = [];
 
-        return $time;
+      foreach ($this->files as $file)
+      {
+        $allFilesHash[] = sha1_file($file);
+      }
+
+      return sha1(implode('_', $allFilesHash));
+    }
+
+    protected function _countModifierTime()
+    {
+      $time = 0;
+
+      foreach ($this->files as $file)
+      {
+          if ($this->checkExternalFile($file))
+          {
+              $userAgent = isset($this->headers['User-Agent']) ? $this->headers['User-Agent'] : '';
+              $time += hexdec(substr(md5($file . $userAgent), 0, 8));
+          }
+          else {
+              $time += filemtime($file);
+          }
+      }
+
+      return $time;
     }
 
     /**

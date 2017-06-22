@@ -49,9 +49,11 @@ return array(
     | Base URL
     |--------------------------------------------------------------------------
     |
-    | You can set the base URL for the links generated with the configuration 
+    | You can set the base URL for the links generated with the configuration
 	| value. By default if empty HTTP_HOST would be used.
     |
     */
-	'base_url' => ''
+	'base_url' => '',
+
+  'names' => 'hash',
 );
