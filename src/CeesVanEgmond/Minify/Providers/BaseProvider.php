@@ -230,7 +230,7 @@ abstract class BaseProvider implements Countable
 
       foreach ($this->files as $file)
       {
-        $allFilesHash[] = sha1_file($file);
+        $allFilesHash[] = hash_file('sha1', $file);
       }
 
       return sha1(implode('_', $allFilesHash));
